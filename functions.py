@@ -24,11 +24,11 @@ def get_V_and_R(A):
     |   |  x3 |
     |   |  |  x4
 
-        xk          mirror (vk)
-       /           /
-      /           /
-     /           /
-    /           /
+        xk         . mirror (it is sparkly because it was recently cleaned)
+       /       .*  /
+      /     .*    /
+     /   .*      /
+    / .*        /
     ------------> 
                reflection (||xk||e1)
 
