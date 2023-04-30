@@ -16,13 +16,11 @@ def get_V_and_R(A):
 
             2) V, another matrix containing the mirrors that reflected each (subdiags of) column of A 
 
-    |
-    |   |  
-    |   |  |  
-    x1  |  |  | 
-    |   x2 |  | 
-    |   |  x3 |
-    |   |  |  x4
+    A[0:,:]   A[1:,:]   A[2:,:]   A[3:,:]     
+    |------|  |      |  |      |  |      |   
+    |------|  |------|  |      |  |      |        
+    |------|  |------|  |------|  |      |
+    |------|  |------|  |------|  |------|
 
         xk         . mirror (it is sparkly because it was recently cleaned)
        /       .*  /
