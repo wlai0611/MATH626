@@ -46,23 +46,57 @@ def get_V_and_R(A):
 
 def get_Q(V):
     '''
+    This code is explained in 2 different ways.
+    -------------------------------------------------------------
+    Explanation 1:
+    --------------
+    The V matrix (called the reflection vectors) looks like this:
+      1 2 3 4 5
+    1|x        |
+    2|x x      |
+    3|x x x    |
+    4|x x x x  |
+    5|x x x x x|
+
+    Create an Identity Matrix, I that looks like this:
+      1 2 3 4 5
+    1|x        |
+    2|  x      |
+    3|    x    |
+    4|      x  |
+    5|        x|
+
+
+    1. Project the last 1 rows of I onto column 5 of V
+    2. Subtract twice that projection off the last 1 rows of I
+    3. Project the last 2 rows of I onto column 4 of V
+    4. Subtract twice that projection off the last 2 rows of I
+    5. Project the last 3 rows of I onto column 3 of V
+    6. Subtract twice that projection off the last 3 rows of I 
+    7. Project the last 4 rows of I onto column 2 of V
+    8. Subtract twice that projection off the last 4 rows of I 
+    9. Project the last 5 rows of I onto column 1 of V
+    10.Subtract twice that projection off the last 5 rows of I 
+    
+    Explanation 2:
+    ---------------
     In the first step that we obtained R, we did
     Q3*Q2*Q1*A = R
     
-    where Q1 was v1 * v1T
+    where Q1 was I-2*v1 * v1T (embedded in an Identity Matrix)
 
     Now, we want to get the Q in A=QR which is backwards: A = Q1*Q2*Q3*R
                                                               --------
                                                                   Q
     So in order to get that Q, we must do
 
-    Q = (v1 * v1T)(v2 * v2T)(v3 * v3T)...(vn * vnT) * Identity Matrix
+    Q = (I-2*v1 * v1T)(I-2*v2 * v2T)(I-2*v3 * v3T)...(I-2*vn * vnT) * Identity Matrix
     So we must start with the last column of V
-    1. (vn * vnT) * Identity Matrix
-    2. (vn-1 *vn-1T) * (vn * vnT) * Identity Matrix
-    3. (vn-2 *vn-2T) * (vn-1 *vn-1T) * (vn * vnT) * Identity Matrix
+    1. (I-2*vn * vnT) * Identity Matrix
+    2. (I-2*vn-1 *vn-1T) * (I-2*vn * vnT) * Identity Matrix
+    3. (I-2*vn-2 *vn-2T) * (I-2*vn-1 *vn-1T) * (I-2*vn * vnT) * Identity Matrix
     ...
-    n. (v1 *v1T ) * ... * (vn * vnT) * Identity Matrix
+    n. (I-2*v1 *v1T ) * ... * (I-2*vn * vnT) * Identity Matrix
     '''
     nrows, ncols = V.shape
     Q = np.identity(nrows)
