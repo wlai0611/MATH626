@@ -71,3 +71,22 @@ def get_Q(V):
         Q[k:,:] -= 2*np.outer(mirror,mirror)@Q[k:,:]  #reflect every column across the mirror
     return Q
 
+def hessenberg(A):
+    '''
+    Turn A into an upper Hessenberg matrix by left and right multiplying A by orthogonal matrices:
+    Q3*Q2*Q1*A*Q1*Q2*Q3 -----> upper Hessenberg matrix
+    where Q1, Q2 are orthogonal
+    '''
+    nrows, ncols = A.shape
+    mirrors      = np.zeros(A.shape)
+    reflections  = A.copy()
+    for k in range(min(nrows,ncols)-2):
+        subdiagonal  = reflections[k+1:,k]
+        reflection   = np.zeros(nrows-k-1)
+        reflection[0]= norm(subdiagonal)
+        mirror       = subdiagonal + reflection
+        mirror       = mirror/norm(mirror)
+        mirrors[k+1:,k]= mirror
+        reflections[k+1:,:] -= 2 * np.outer(mirror,mirror) @ reflections[k+1:,:]
+        reflections[:,k+1:] -= 2 * reflections[:,k+1:] @ np.outer(mirror,mirror)
+    return mirrors, reflections 
