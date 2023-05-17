@@ -16,6 +16,4 @@ print('New S eigenvalues', evals)
 print(rotated_S[i,j])
 print(rotated_S[j,i])
 
-S
-
 print()
