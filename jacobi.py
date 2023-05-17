@@ -1,6 +1,6 @@
 import numpy as np
 
-def rotate(S,i,j):
+def rotate(A,i,j):
     '''
     Modify ith and jth rows and ith and jth columns to zero out the i,j entry while preserving
     eigenvalues
@@ -19,6 +19,7 @@ def rotate(S,i,j):
       The same symmetric matrix but after being left multiplied by a rotation matrix.  The
       rotation matrix will make the off diagonal at i,j 0.  Other off-diagonals will be effected.
     '''
+    S = A.copy()
     m, m = S.shape
     angle = np.arctan((2*S[i,j])/(S[j,j] - S[i,i]))/2 
     #rotator = np.identity(m)
@@ -46,3 +47,4 @@ def rotate(S,i,j):
     S[:,i] = col_i
     S[:,j] = col_j
     return S
+
