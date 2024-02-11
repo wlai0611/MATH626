@@ -124,3 +124,42 @@ def hessenberg(A):
         reflections[k+1:,:] -= 2 * np.outer(mirror,mirror) @ reflections[k+1:,:]
         reflections[:,k+1:] -= 2 * reflections[:,k+1:] @ np.outer(mirror,mirror)
     return mirrors, reflections 
+    
+def back_substitution(R, y):
+    '''
+    Given a square matrix R with M rows and M columns, 
+    and a vector y with M entries,
+    Return a vector x that is a linear combination of R that will produce y
+    
+    How it works:
+    Rx=y
+    
+    R11 R12 R13 | x1 = y1
+        R22 R23 | x2 = y2
+            R33 | x3 = y3
+            
+    Find x3 = y3/R33
+    and subtract a multiple of x3 from y1 and y2    
+
+    R11 R12 R13 | x1 = y1 - x3*R13
+        R22 R23 | x2 = y2 - x3*R23
+            R33 | x3 = y3
+            
+    x2 = (y2 - x3*R23)/R22
+    and subtract a multiple of x2 from y1
+            
+    R11 R12 R13 | x1 = y1 - x3*R13 - x2*R12
+        R22 R23 | x2 = y2 - x3*R23
+            R33 | x3 = y3  
+
+    x1 = (y1 - x3*R13 - x2*R12)/R11      
+    
+    *The step that can be parallelized is the subtraction of a multiple of the current x from the future ys
+    '''
+    rows, columns = R.shape
+    x  = np.zeros(rows)
+    y_ = y.copy()
+    for row in reversed(range(rows)):
+        x[row]   =  y_[row]/R[row,row]
+        y_[:row] -= x[row]*R[:row,row] #can be parallelized
+    return x

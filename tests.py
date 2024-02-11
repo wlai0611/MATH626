@@ -43,6 +43,19 @@ def test_hessenberg_reconstruction():
     V, H = hessenberg(A)
     Q = get_Q(V)
     return A - Q@H@Q.T
+    
+def test_back_substitution():
+    rng = np.random.default_rng(seed=123)
+    A   = rng.random((5,5))
+    Q,R = np.linalg.qr(A)
+    rows, columns = R.shape
+    true_x = rng.random(rows)
+    y = R.dot(true_x)
+    x = back_substitution(R,y)
+    print("Expected x for back_substitution: ", true_x,
+    "\nActual x: ", x)
+
+test_back_substitution()
 
 np.random.seed(123)
 A = np.random.random((5,10))
